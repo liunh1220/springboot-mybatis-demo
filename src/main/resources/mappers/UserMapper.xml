@@ -59,9 +59,7 @@
             <if test="password != null">
                 password,
             </if>
-            <if test="createTime != null">
-                create_time,
-            </if>
+            create_time,
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -85,9 +83,6 @@
             </if>
             <if test="password != null">
                 password = #{password},
-            </if>
-            <if test="createTime != null">
-                create_time = #{createTime},
             </if>
         </set>
         where id = #{id}

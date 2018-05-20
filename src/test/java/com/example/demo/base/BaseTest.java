@@ -19,16 +19,5 @@ import org.springframework.test.context.junit4.SpringRunner;
 @ActiveProfiles(profiles = "dev")
 public class BaseTest {
 
-    @Autowired
-    UserMapper userMapper;
-
-    @Test
-    public void test1(){
-        User record = new User();
-        record.setId("1");
-        record = userMapper.findUser(record);
-        System.out.print(record);
-    }
-
 
 }
