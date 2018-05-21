@@ -5,7 +5,6 @@ import com.dangdang.ddframe.rdb.sharding.jdbc.core.datasource.ShardingDataSource
 import com.example.demo.base.DataSourcePropertiesProcessor;
 import com.example.demo.config.ds.mybatis.MybatisSQLPerformanceInterceptor;
 import com.example.demo.config.ds.mybatis.MybatisTimeoutInterceptor;
-import com.example.demo.config.ds.sharding.ShardingTableDataSourceHolder;
 import com.example.demo.exception.AppBusinessException;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
