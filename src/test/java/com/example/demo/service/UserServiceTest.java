@@ -23,9 +23,10 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void test1() {
         User record = new User();
-        record.setId("732B738EAB1B45FAA176C02F23E9960B");
+        record.setId("CF54F85D3AF54F1FBCCC148E2B6010F4");
         record = userService.findUser(record);
         System.out.println("=============================================================");
+        System.out.println("logicTableName= "+ ShardingTableRule.generateTableName("t_user","CF54F85D3AF54F1FBCCC148E2B6010F4"));
         System.out.println(record);
     }
 
@@ -42,13 +43,13 @@ public class UserServiceTest extends BaseTest {
     public void test3() {
         String uuid = KeyGenerator.getUUID();
         System.out.println("uuid= "+ uuid);
-        System.out.println("logicTableName= "+ ShardingTableRule.generateTableName("t_user",uuid));
         User record = new User();
         record.setId(uuid);
         record.setName("a");
         record.setPassword("111111");
         int insertUser = userService.insertUser(record);
         System.out.println("=============================================================");
+        System.out.println("logicTableName= "+ ShardingTableRule.generateTableName("t_user",uuid));
         System.out.println(insertUser);
 
     }

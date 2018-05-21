@@ -4,7 +4,7 @@ import com.dangdang.ddframe.rdb.sharding.jdbc.core.datasource.ShardingDataSource
 import com.example.demo.base.DataSourceNames;
 import com.example.demo.config.ds.MultipleDataSource;
 import com.example.demo.config.ds.ShardingDataSourceCollector;
-import com.example.demo.config.ds.sharding.write.RecordShardingDataSourceFactoryBean;
+import com.example.demo.config.ds.sharding.RecordShardingDataSourceFactoryBean;
 import com.example.demo.constant.ApplicationConstant;
 import com.example.demo.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,9 +1,9 @@
-package com.example.demo.config.ds.sharding.read;
+package com.example.demo.config.ds.sharding;
 
 import com.dangdang.ddframe.rdb.sharding.api.ShardingValue;
 import com.dangdang.ddframe.rdb.sharding.api.strategy.table.MultipleKeysTableShardingAlgorithm;
-import com.example.demo.config.ds.sharding.ShardingTableDataSourceHolder;
-import com.example.demo.config.ds.sharding.ShardingTableRule;
+import com.example.demo.config.ds.sharding.read.ReadShardingInfo;
+import com.example.demo.config.ds.sharding.write.ShardingInfo;
 import com.example.demo.exception.AppBusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,23 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class ReadTableShardingAlgorithm implements MultipleKeysTableShardingAlgorithm {
+public final class TableShardingAlgorithm implements MultipleKeysTableShardingAlgorithm {
 
-    private static final Logger logger = LoggerFactory.getLogger(ReadTableShardingAlgorithm.class);
+    private static final Logger logger = LoggerFactory.getLogger(TableShardingAlgorithm.class);
 
-    private ReadShardingInfo shardingInfo = ReadShardingInfo.getInstance();
+    private Boolean isWrite ;
+
+    private ShardingInfo shardingInfo;
+
+    private ReadShardingInfo readShardingInfo;
+
+
+    public TableShardingAlgorithm(boolean isWrite,ShardingInfo shardingInfo,ReadShardingInfo readShardingInfo){
+        this.isWrite = isWrite;
+        this.shardingInfo = shardingInfo;
+        this.readShardingInfo = readShardingInfo;
+    }
+
 
     @Override
     public Collection<String> doSharding(final Collection<String> availableTargetNames, final Collection<ShardingValue<?>> shardingValues) {
@@ -24,12 +36,22 @@ public final class ReadTableShardingAlgorithm implements MultipleKeysTableShardi
         String dataSourceName = ShardingTableDataSourceHolder.getDataSourceName();
         String shardingKey = null;
         if(dataSourceName != null) {
-            shardingKey = shardingInfo.getColumnByDataSource(dataSourceName);
+            if (this.isWrite ){
+                shardingKey = shardingInfo.getColumnByDataSource(dataSourceName);
+            }else {
+                shardingKey = readShardingInfo.getColumnByDataSource(dataSourceName);
+            }
         }
 
         if(shardingKey == null) {
+            String dataSourceToColumnMap = null;
+            if (this.isWrite ){
+                dataSourceToColumnMap = shardingInfo.getDataSourceToColumnMapInfo();
+            }else {
+                dataSourceToColumnMap = readShardingInfo.getDataSourceToColumnMapInfo();
+            }
             throw new AppBusinessException(String.format("dataSourceName为null或者根据dataSourceName没有找到对应的shardingKey, dataSourceName: %s, dataSourceToColumnMap: %s",
-                    dataSourceName, shardingInfo.getDataSourceToColumnMapInfo()));
+                    dataSourceName, dataSourceToColumnMap));
         }
 
         for(ShardingValue shardingValue : shardingValues) {

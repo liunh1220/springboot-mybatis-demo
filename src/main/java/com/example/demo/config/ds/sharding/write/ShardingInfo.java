@@ -22,11 +22,11 @@ public class ShardingInfo {
 
     private final Map<String, String> columnToDataSourceMap = new LinkedHashMap<>();
 
-    private final Map<String, String> readColumnToDataSourceMap = new LinkedHashMap<>();
+    //private final Map<String, String> readColumnToDataSourceMap = new LinkedHashMap<>();
 
     private final Map<String, String> dataSourceToColumnMap = new LinkedHashMap<>();
 
-    private final Map<String, String> readDataSourceToColumnMap = new LinkedHashMap<>();
+    //private final Map<String, String> readDataSourceToColumnMap = new LinkedHashMap<>();
 
 
     public final List<String> shardingKeys = new ArrayList<>();
