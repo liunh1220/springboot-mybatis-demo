@@ -3,8 +3,8 @@ package com.example.demo.config;
 import com.dangdang.ddframe.rdb.sharding.jdbc.core.datasource.ShardingDataSource;
 import com.example.demo.base.DataSourceNames;
 import com.example.demo.config.ds.MultipleDataSource;
-import com.example.demo.config.ds.ShardingDataSourceCollector;
 import com.example.demo.config.ds.sharding.RecordShardingDataSourceFactoryBean;
+import com.example.demo.config.ds.sharding.ShardingDataSourceCollector;
 import com.example.demo.constant.ApplicationConstant;
 import com.example.demo.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -121,11 +121,6 @@ public class BaseConfiguration extends WebMvcConfigurerAdapter  {
         return new RecordShardingDataSourceFactoryBean(Boolean.FALSE);
     }
 
-    /*@Bean
-    @Qualifier(DataSourceNames.SHARDING_RP_READ)
-    public ReadShardingDataSourceFactoryBean readShardingDataSource() {
-        return new ReadShardingDataSourceFactoryBean();
-    }*/
 
     @Bean
     public ShardingDataSourceCollector readShardingDataSourceCollector(

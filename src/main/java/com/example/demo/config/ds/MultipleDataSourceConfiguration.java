@@ -5,6 +5,7 @@ import com.dangdang.ddframe.rdb.sharding.jdbc.core.datasource.ShardingDataSource
 import com.example.demo.base.DataSourcePropertiesProcessor;
 import com.example.demo.config.ds.mybatis.MybatisSQLPerformanceInterceptor;
 import com.example.demo.config.ds.mybatis.MybatisTimeoutInterceptor;
+import com.example.demo.config.ds.sharding.ShardingDataSourceCollector;
 import com.example.demo.exception.AppBusinessException;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -63,7 +64,7 @@ public class MultipleDataSourceConfiguration implements BeanDefinitionRegistryPo
     @Bean(name = "dynamicDataSource")
     public AbstractRoutingDataSource dataSource(MultipleDataSource multipleDataSource,
                                                 MultipleDataSourceInitializer initializer,
-                                                ShardingDataSourceCollector collector) {
+                                                ShardingDataSourceCollector readShardingDataSourceCollector) {
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         //如果指定的dataSource key不存在, 则报错
@@ -81,7 +82,7 @@ public class MultipleDataSourceConfiguration implements BeanDefinitionRegistryPo
             dataSourceMap.put(ds, dataSource);
         }
 
-        Map<String, ShardingDataSource> shardingDataSourceMap = collector.collectShardingDataSources();
+        Map<String, ShardingDataSource> shardingDataSourceMap = readShardingDataSourceCollector.collectShardingDataSources();
         if (shardingDataSourceMap != null && !shardingDataSourceMap.isEmpty()) {
             dataSourceMap.putAll(shardingDataSourceMap);
         }
@@ -123,7 +124,7 @@ public class MultipleDataSourceConfiguration implements BeanDefinitionRegistryPo
         sessionFactory.setPlugins(its);
 
         Properties properties = new Properties();
-        properties.put("dialect", "sqlserver");
+        properties.put("dialect", "mysql");
         sessionFactory.setConfigurationProperties(properties);
         return sessionFactory.getObject();
     }

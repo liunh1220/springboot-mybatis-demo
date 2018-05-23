@@ -20,7 +20,7 @@ public class UserService {
         return userMapper.insertUser(record);
     }
 
-    @DataSource(DataSourceNames.SHARDING_RP_READ)
+    @DataSource(DataSourceNames.DB_READ)
     User findUser(User record){
         return userMapper.findUser(record);
     }
