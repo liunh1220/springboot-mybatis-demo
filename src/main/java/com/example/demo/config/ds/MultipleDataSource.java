@@ -25,13 +25,6 @@ public class MultipleDataSource implements InitializingBean ,ApplicationContextA
 
     private String defaultDataSource;
 
-    /**
-     * 在这个集合中定义的数据源, 在项目启动的时候会进行检测, 为避免启动时间过长, 检测的数据源数量越少越好.
-     * 如果需要进行检测, 除了设置这个变量之外, 还需要初始化StartupDataSourceCheckInitializer这个bean
-     */
-    private Set<String> startupNeededDataSources;
-
-    private Map<String, String> dataSourceReplaceMap ;
 
     /**
      * list中的第一个为默认数据源
@@ -39,39 +32,12 @@ public class MultipleDataSource implements InitializingBean ,ApplicationContextA
      * @param dataSources
      */
     public MultipleDataSource(List<String> dataSources) {
-        this(dataSources, null, null);
-    }
-
-    /**
-     * list中的第一个为默认数据源
-     *
-     * @param dataSources
-     * @param dataSourceReplaceMap
-     */
-    public MultipleDataSource(List<String> dataSources, Map<String, String> dataSourceReplaceMap) {
-        this(dataSources, dataSourceReplaceMap, null);
-    }
-
-
-    /**
-     * list中的第一个为默认数据源
-     *
-     * @param dataSources
-     * @param dataSourceReplaceMap
-     * @param startupNeededDataSources 在这个集合中定义的数据源, 在项目启动的时候会进行检测, 为避免启动时间过长, 检测的数据源数量越少越好.
-     */
-    public MultipleDataSource(List<String> dataSources, Map<String, String> dataSourceReplaceMap, List<String> startupNeededDataSources) {
-
         if (dataSources == null || dataSources.isEmpty()) {
             throw new AppBusinessException("MultipleDataSource dataSources cannot be empty!");
         }
 
         this.dataSources = new HashSet<>(dataSources);
         this.defaultDataSource = dataSources.get(0);
-        this.startupNeededDataSources = startupNeededDataSources == null ? new HashSet<>() : new HashSet<>(startupNeededDataSources);
-
-        DataSourceHolder.initDataSourceReplaceMap(dataSourceReplaceMap);
-
     }
 
 
@@ -129,8 +95,5 @@ public class MultipleDataSource implements InitializingBean ,ApplicationContextA
         return StringUtils.isNotBlank(url) && StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password);
     }
 
-    public Set<String> getStartupNeededDataSources() {
-        return startupNeededDataSources;
-    }
 
 }
